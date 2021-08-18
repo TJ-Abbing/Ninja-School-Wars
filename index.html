@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ninja School Wars</title>
     <link rel="stylesheet" href="docs/css/style.css">
+    <title>Ninja School Wars</title>
 </head>
 <body>
-    <div id="game">
-        <div id="character1"></div>
-        <div id="character2"></div>
-    </div>
+    <div class="container">
+        <canvas id="canvas"></canvas>
 
-    <script src="docs/js/script.js"></script>
+        <div id="health-bars">
+            <div class="health-label">
+              <strong>Player 1</strong><br><span id="p1-kills">0</span> KO(s)
+            </div>
+            <div class="health">
+                <span class="fill" id="p1-health"></span>
+            </div>
+            <div class="health">
+                <span class="fill" id="p2-health"></span>
+            </div>
+            <div class="health-label">
+              <strong>Player 2</strong><br><span id="p2-kills">0</span> KO(s)
+            </div>
+    </div>
+    <script src="docs/js/game.js" defer></script>
 </body>
 </html>
