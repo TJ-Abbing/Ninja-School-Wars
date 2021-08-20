@@ -6,25 +6,28 @@ canvas.height = 500;
 
 const keys: any[] = [];
 
-// Player classes
-class playerClass {
+// player1 classes
+class player1Class {
     constructor(){
-        console.log('Player 1 created!')
+        console.log('player1 1 created!')
     }
-    x = 200;
-    y = 200;
+    x = 300;
+    y = 400;
     width = 143;
     height = 417;
     frameX = 0;
     frameY = 0;
     speed = 9;
+    gravity = 5;
+    health = 100;
     moving = false;
+    jumping = false;
 }
 
-let player = new playerClass; 
+let player1 = new player1Class; 
 
-let playerSprite = new Image();
-playerSprite.src = "docs/images/ninja_all.png";
+let player1Sprite = new Image();
+player1Sprite.src = "docs/images/ninja_all.png";
 
 const background = new Image();
 background.src = "docs/images/background.png";
@@ -36,38 +39,62 @@ function drawSprite(img: CanvasImageSource, sX: number, sY: number, sW: number, 
 function animate(){
     ctx?.clearRect(0, 0, canvas.width, canvas.height);
     ctx?.drawImage(background, 0, 0, canvas.width, canvas.height);
-    drawSprite(playerSprite, player.width * player.frameX, player.height * player.frameY, player.width, player.height, player.x, player.y, player.width / 2, player.height / 2);
-    movePlayer();
+    drawSprite(player1Sprite, player1.width * player1.frameX, player1.height * player1.frameY, player1.width, player1.height, player1.x, player1.y, player1.width / 2, player1.height / 2);
+    moveplayer1();
     requestAnimationFrame(animate);
 }
 animate(); 
 
 window.addEventListener("keydown", function(e){
     keys[e.keyCode] = true;
-    console.log(keys);
 });
 
 window.addEventListener("keyup", function(e){
     delete keys[e.keyCode];
 });
 
-function movePlayer(){
-    if (keys[38] && player.y > 10){
-        player.y -= player.speed;
-        player.frameX = 0
-        }
-    if (keys[37] && player.x > 10){
-        player.x -= player.speed;
-        player.frameX = 2
-        }
-    if (keys[40] && player.y <canvas.height - player.height + 320){
-        player.y += player.speed;
-        player.frameX = 0
+function jump(){
+    let timerDownId = setInterval(function(){
+        20
+    })
+    player1.y -= 30;
+}
+
+var delayInMilliseconds = 1000; //1 second
+
+setTimeout(function() {
+  //your code to be executed after 1 second
+}, delayInMilliseconds);
+
+function moveplayer1(){
+    if (player1.y <canvas.height - player1.height + 320){
+        player1.y += player1.gravity
     }
-    if (keys[39] && player.x <canvas.width - player.width + 70){
-        player.x += player.speed;
-        player.frameX = 1
+
+    if (keys[38] && player1.y > 30){
+        console.log("up")
+        // player1.y -= player1.speed;
+        player1.frameX = 0
+        jump();
+        }
+    if (keys[40] && player1.y <canvas.height - player1.height + 320){
+        console.log("down")
+        player1.y += player1.speed;
+        player1.frameX = 0
+    }
+    if (keys[37] && player1.x > 20){
+        console.log("left")
+        player1.x -= player1.speed;
+        player1.frameX = 2
+        }
+    if (keys[39] && player1.x <canvas.width - player1.width + 60){
+        console.log("right")
+        player1.x += player1.speed;
+        player1.frameX = 1
     }
 
 }
 
+let healthP1;
+healthP1 = document.getElementById('p1-health');
+healthP1.style.width = player1.health + "%";
