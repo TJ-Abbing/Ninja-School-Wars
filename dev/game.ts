@@ -30,7 +30,7 @@ class playersClass{
 // White shurikens
 const shurikenArrayWhite: any = [];
 class shurikenWhite {
-    x = canvas.width + Math.random() * canvas.width;
+    x = canvas.width + Math.random() * canvas.width + 1000;
     y = Math.random() * canvas.height;
     radius = 10;
     speed = Math.random() * 5 + 10;
@@ -78,7 +78,7 @@ function shurikenHandlerWhite(){
 // Black shurikens
 const shurikenArrayBlack: any = [];
 class shurikenBlack {
-    x = canvas.width + Math.random() * canvas.width;
+    x = canvas.width + Math.random() * canvas.width + 1000; 
     y = Math.random() * canvas.height;
     radius = 10;
     speed = Math.random() * 5 + 10;
@@ -164,11 +164,10 @@ function animate(){
 }
 animate(); 
 function setPlayerPositions(){
-    player1.x = 50;
-    player2.x = 650;
+    player1.x = 10;
+    player2.x = 100;
 }
 setPlayerPositions();
-
 
 // Adding keys
 window.addEventListener("keydown", function(e){

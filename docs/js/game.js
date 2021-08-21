@@ -31,7 +31,7 @@ var playersClass = /** @class */ (function () {
 var shurikenArrayWhite = [];
 var shurikenWhite = /** @class */ (function () {
     function shurikenWhite() {
-        this.x = canvas.width + Math.random() * canvas.width;
+        this.x = canvas.width + Math.random() * canvas.width + 1000;
         this.y = Math.random() * canvas.height;
         this.radius = 10;
         this.speed = Math.random() * 5 + 10;
@@ -79,7 +79,7 @@ function shurikenHandlerWhite() {
 var shurikenArrayBlack = [];
 var shurikenBlack = /** @class */ (function () {
     function shurikenBlack() {
-        this.x = canvas.width + Math.random() * canvas.width;
+        this.x = canvas.width + Math.random() * canvas.width + 1000;
         this.y = Math.random() * canvas.height;
         this.radius = 10;
         this.speed = Math.random() * 5 + 10;
@@ -161,8 +161,8 @@ function animate() {
 }
 animate();
 function setPlayerPositions() {
-    player1.x = 50;
-    player2.x = 650;
+    player1.x = 10;
+    player2.x = 100;
 }
 setPlayerPositions();
 // Adding keys
