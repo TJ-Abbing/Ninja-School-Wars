@@ -10,21 +10,13 @@
 <body>
     <div class="container">
         <canvas id="canvas"></canvas>
-
-        <div id="health-bars">
-            <div class="health-label">
-              <strong>Player 1</strong><br><span id="p1-kills">0</span> KO(s)
+        <div id="bottom">
+            <p1 id="main-text">Click on the button to the right to start a new game!</p1>
+            <div id="buttons">
+                <button id="restart"><a href="index.html">Restart game</a></button>
             </div>
-            <div class="health">
-                <span class="fill" id="p1-health"></span>
-            </div>
-            <div class="health">
-                <span class="fill" id="p2-health"></span>
-            </div>
-            <div class="health-label">
-              <strong>Player 2</strong><br><span id="p2-kills">0</span> KO(s)
-            </div>
-    </div>
+        </div>
+    </div>    
     <script src="docs/js/game.js" defer></script>
 </body>
 </html>
