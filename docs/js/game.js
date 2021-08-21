@@ -1,7 +1,5 @@
 "use strict";
 //Setup
-function game() {
-}
 console.log('JS is running!');
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
@@ -57,7 +55,7 @@ var shurikenWhite = /** @class */ (function () {
     return shurikenWhite;
 }());
 function shurikenHandlerWhite() {
-    if (gameFrame % 10 == 0) {
+    if (gameFrame % 5 == 0) {
         shurikenArrayWhite.push(new shurikenWhite());
     }
     for (var i = 0; i < shurikenArrayWhite.length; i++) {
@@ -105,7 +103,7 @@ var shurikenBlack = /** @class */ (function () {
     return shurikenBlack;
 }());
 function shurikenHandlerBlack() {
-    if (gameFrame % 10 == 0) {
+    if (gameFrame % 5 == 0) {
         shurikenArrayBlack.push(new shurikenBlack());
     }
     for (var i = 0; i < shurikenArrayBlack.length; i++) {
@@ -159,7 +157,6 @@ function animate() {
         shurikenHandlerWhite();
         shurikenHandlerBlack();
         gameFrame++;
-        checkWin();
     }
 }
 animate();
@@ -177,10 +174,10 @@ window.addEventListener("keyup", function (e) {
 });
 // Adding jump for players
 function jump1() {
-    player1.y -= 30;
+    player1.y -= 20;
 }
 function jump2() {
-    player2.y -= 30;
+    player2.y -= 20;
 }
 // Adding player controls
 function moveplayer1() {
@@ -225,18 +222,15 @@ function moveplayer2() {
         player2.frameX = 1;
     }
 }
-var delayInMilliseconds = 100; // Adds a 0.1 second delay untill game stops after a player wins
+var delayInMilliseconds = 1000; // Adds a 0.1 second delay untill game stops after a player wins
 function checkWin() {
-    if (scoreP1 >= 10) {
+    if (scoreP1 > scoreP2) {
         ctx === null || ctx === void 0 ? void 0 : ctx.fillText("Black ninja wins!", 10, 50);
-        setTimeout(function () {
-            win = true;
-        }, delayInMilliseconds);
+        win = true;
     }
-    if (scoreP2 >= 10) {
+    else if (scoreP2 > scoreP1) {
         ctx === null || ctx === void 0 ? void 0 : ctx.fillText("White ninja wins!", 650, 50);
-        setTimeout(function () {
-            win = true;
-        }, delayInMilliseconds);
+        win = true;
     }
 }
+setInterval(checkWin, 60000);

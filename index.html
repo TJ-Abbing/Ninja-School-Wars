@@ -9,6 +9,18 @@
 </head>
 <body>
     <div class="container">
+        <h1>Time remaining <span id="countdowntimer">60 </span> Seconds</h1>
+
+        <script type="text/javascript">
+            var timeleft = 60;
+            var downloadTimer = setInterval(function(){
+            timeleft--;
+            document.getElementById("countdowntimer").textContent = timeleft;
+            if(timeleft <= 0)
+                clearInterval(downloadTimer);
+            },1000);
+        </script>
+
         <canvas id="canvas"></canvas>
         <div id="bottom">
             <p1 id="main-text">Click on the button to the right to start a new game!</p1>
