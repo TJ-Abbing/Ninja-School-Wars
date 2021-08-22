@@ -10,7 +10,7 @@ var scoreP1 = 0;
 var scoreP2 = 0;
 var win = false;
 var keys = [];
-// player1 classes
+// Player class
 var playersClass = /** @class */ (function () {
     function playersClass() {
         this.x = 0;
@@ -23,14 +23,23 @@ var playersClass = /** @class */ (function () {
         this.gravity = 9;
         this.health = 100;
         this.radius = 35;
-        console.log('player created!');
     }
+    Object.defineProperty(playersClass.prototype, "playerColor", {
+        get: function () {
+            return this.name;
+        },
+        set: function (val) {
+            this.name = val;
+        },
+        enumerable: false,
+        configurable: true
+    });
     return playersClass;
 }());
-// White shurikens
-var shurikenArrayWhite = [];
-var shurikenWhite = /** @class */ (function () {
-    function shurikenWhite() {
+// White energy
+var WhiteEnergyArray = [];
+var whiteEnergy = /** @class */ (function () {
+    function whiteEnergy() {
         this.x = canvas.width + Math.random() * canvas.width + 1000;
         this.y = Math.random() * canvas.height;
         this.radius = 10;
@@ -38,13 +47,13 @@ var shurikenWhite = /** @class */ (function () {
         this.counted = false;
         this.distance = 0;
     }
-    shurikenWhite.prototype.update = function () {
+    whiteEnergy.prototype.update = function () {
         this.x -= this.speed;
         var dx = this.x - player1.x;
         var dy = this.y - player1.y;
         this.distance = Math.sqrt(dx * dx + dy * dy);
     };
-    shurikenWhite.prototype.draw = function () {
+    whiteEnergy.prototype.draw = function () {
         ctx === null || ctx === void 0 ? void 0 : ctx.fillStyle = "white";
         ctx === null || ctx === void 0 ? void 0 : ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -52,33 +61,33 @@ var shurikenWhite = /** @class */ (function () {
         ctx === null || ctx === void 0 ? void 0 : ctx.closePath();
         ctx === null || ctx === void 0 ? void 0 : ctx.stroke();
     };
-    return shurikenWhite;
+    return whiteEnergy;
 }());
-function shurikenHandlerWhite() {
+function whiteEnergyHandler() {
     if (gameFrame % 5 == 0) {
-        shurikenArrayWhite.push(new shurikenWhite());
+        WhiteEnergyArray.push(new whiteEnergy());
     }
-    for (var i = 0; i < shurikenArrayWhite.length; i++) {
-        shurikenArrayWhite[i].update();
-        shurikenArrayWhite[i].draw();
+    for (var i = 0; i < WhiteEnergyArray.length; i++) {
+        WhiteEnergyArray[i].update();
+        WhiteEnergyArray[i].draw();
     }
-    for (var i = 0; i < shurikenArrayWhite.length; i++) {
-        if (shurikenArrayWhite[i].x < 0) {
-            shurikenArrayWhite.splice(i, 1);
+    for (var i = 0; i < WhiteEnergyArray.length; i++) {
+        if (WhiteEnergyArray[i].x < 0) {
+            WhiteEnergyArray.splice(i, 1);
         }
-        if (shurikenArrayWhite[i].distance < shurikenArrayWhite[i].radius + player1.radius) {
+        if (WhiteEnergyArray[i].distance < WhiteEnergyArray[i].radius + player1.radius) {
             scoreP1++;
-            if (!shurikenArrayWhite[i].counted) {
-                shurikenArrayWhite[i].counted = true;
-                shurikenArrayWhite.splice(i, 1);
+            if (!WhiteEnergyArray[i].counted) {
+                WhiteEnergyArray[i].counted = true;
+                WhiteEnergyArray.splice(i, 1);
             }
         }
     }
 }
-// Black shurikens
-var shurikenArrayBlack = [];
-var shurikenBlack = /** @class */ (function () {
-    function shurikenBlack() {
+// Black energy
+var blackEnergyArray = [];
+var blackEnergy = /** @class */ (function () {
+    function blackEnergy() {
         this.x = canvas.width + Math.random() * canvas.width + 1000;
         this.y = Math.random() * canvas.height;
         this.radius = 10;
@@ -86,13 +95,13 @@ var shurikenBlack = /** @class */ (function () {
         this.counted = false;
         this.distance = 0;
     }
-    shurikenBlack.prototype.update = function () {
+    blackEnergy.prototype.update = function () {
         this.x -= this.speed;
         var dx = this.x - player2.x;
         var dy = this.y - player2.y;
         this.distance = Math.sqrt(dx * dx + dy * dy);
     };
-    shurikenBlack.prototype.draw = function () {
+    blackEnergy.prototype.draw = function () {
         ctx === null || ctx === void 0 ? void 0 : ctx.fillStyle = "black";
         ctx === null || ctx === void 0 ? void 0 : ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -100,29 +109,30 @@ var shurikenBlack = /** @class */ (function () {
         ctx === null || ctx === void 0 ? void 0 : ctx.closePath();
         ctx === null || ctx === void 0 ? void 0 : ctx.stroke();
     };
-    return shurikenBlack;
+    return blackEnergy;
 }());
-function shurikenHandlerBlack() {
+function blackEnergyHandler() {
     if (gameFrame % 5 == 0) {
-        shurikenArrayBlack.push(new shurikenBlack());
+        blackEnergyArray.push(new blackEnergy());
     }
-    for (var i = 0; i < shurikenArrayBlack.length; i++) {
-        shurikenArrayBlack[i].update();
-        shurikenArrayBlack[i].draw();
+    for (var i = 0; i < blackEnergyArray.length; i++) {
+        blackEnergyArray[i].update();
+        blackEnergyArray[i].draw();
     }
-    for (var i = 0; i < shurikenArrayBlack.length; i++) {
-        if (shurikenArrayBlack[i].x < 0) {
-            shurikenArrayBlack.splice(i, 1);
+    for (var i = 0; i < blackEnergyArray.length; i++) {
+        if (blackEnergyArray[i].x < 0) {
+            blackEnergyArray.splice(i, 1);
         }
-        if (shurikenArrayBlack[i].distance < shurikenArrayBlack[i].radius + player2.radius) {
+        if (blackEnergyArray[i].distance < blackEnergyArray[i].radius + player2.radius) {
             scoreP2++;
-            if (!shurikenArrayBlack[i].counted) {
-                shurikenArrayBlack[i].counted = true;
-                shurikenArrayBlack.splice(i, 1);
+            if (!blackEnergyArray[i].counted) {
+                blackEnergyArray[i].counted = true;
+                blackEnergyArray.splice(i, 1);
             }
         }
     }
 }
+// Adding players
 var player1 = new playersClass;
 var player2 = new playersClass;
 // Adding sprites 
@@ -130,8 +140,6 @@ var player1Sprite = new Image();
 player1Sprite.src = "docs/images/ninja_black.png";
 var player2Sprite = new Image();
 player2Sprite.src = "docs/images/ninja_white.png";
-// let shuriken1Sprite = new Image;
-// shuriken1Sprite.src = "docs/images/shuriken1.png";
 // Adding background
 var background = new Image();
 background.src = "docs/images/background.png";
@@ -142,6 +150,7 @@ function drawSprite1(img, sX, sY, sW, sH, dX, dY, dW, dH) {
 function drawSprite2(img, sX, sY, sW, sH, dX, dY, dW, dH) {
     ctx === null || ctx === void 0 ? void 0 : ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH);
 }
+// Function that animates. Animation stops when time is over.
 function animate() {
     if (!win) {
         ctx === null || ctx === void 0 ? void 0 : ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -154,17 +163,21 @@ function animate() {
         moveplayer1();
         moveplayer2();
         requestAnimationFrame(animate);
-        shurikenHandlerWhite();
-        shurikenHandlerBlack();
+        whiteEnergyHandler();
+        blackEnergyHandler();
         gameFrame++;
     }
 }
 animate();
-function setPlayerPositions() {
+function setPlayers() {
     player1.x = 10;
     player2.x = 100;
+    player1.playerColor = "Black";
+    console.log(player1.playerColor + " ninja created!");
+    player2.playerColor = "White";
+    console.log(player2.playerColor + " ninja created!");
 }
-setPlayerPositions();
+setPlayers();
 // Adding keys
 window.addEventListener("keydown", function (e) {
     keys[e.keyCode] = true;
@@ -222,14 +235,14 @@ function moveplayer2() {
         player2.frameX = 1;
     }
 }
-var delayInMilliseconds = 1000; // Adds a 0.1 second delay untill game stops after a player wins
+// Checks which player has won
 function checkWin() {
     if (scoreP1 > scoreP2) {
-        ctx === null || ctx === void 0 ? void 0 : ctx.fillText("Black ninja wins!", 10, 50);
+        ctx === null || ctx === void 0 ? void 0 : ctx.fillText(player1.playerColor + " ninja wins!", 10, 50);
         win = true;
     }
     else if (scoreP2 > scoreP1) {
-        ctx === null || ctx === void 0 ? void 0 : ctx.fillText("White ninja wins!", 650, 50);
+        ctx === null || ctx === void 0 ? void 0 : ctx.fillText(player2.playerColor + " ninja wins!", 650, 50);
         win = true;
     }
 }

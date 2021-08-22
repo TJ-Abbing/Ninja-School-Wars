@@ -10,11 +10,9 @@ let scoreP2 = 0
 let win = false;
 const keys: any[] = [];
 
-// player1 classes
+// Player class
 class playersClass{
-    constructor(){
-        console.log('player created!')
-    }
+    name: any;
     x = 0;
     y = 300;
     width = 143;
@@ -25,11 +23,17 @@ class playersClass{
     gravity = 9;
     health = 100;
     radius = 35;
-}
-
-// White shurikens
-const shurikenArrayWhite: any = [];
-class shurikenWhite {
+    set playerColor(val){
+      this.name = val;
+    }
+    get playerColor(){
+       return this.name;
+    }
+  }
+  
+// White energy
+const WhiteEnergyArray: any = [];
+class whiteEnergy {
     x = canvas.width + Math.random() * canvas.width + 1000;
     y = Math.random() * canvas.height;
     radius = 10;
@@ -52,32 +56,32 @@ class shurikenWhite {
         ctx?.stroke();
     }
 }
-function shurikenHandlerWhite(){
+function whiteEnergyHandler(){
     if (gameFrame % 5 == 0){
-        shurikenArrayWhite.push(new shurikenWhite());
+        WhiteEnergyArray.push(new whiteEnergy());
     } 
-    for (let i = 0; i < shurikenArrayWhite.length; i++){
-        shurikenArrayWhite[i].update();
-        shurikenArrayWhite[i].draw();
+    for (let i = 0; i < WhiteEnergyArray.length; i++){
+        WhiteEnergyArray[i].update();
+        WhiteEnergyArray[i].draw();
 
     }
-    for (let i = 0; i < shurikenArrayWhite.length; i++){
-        if (shurikenArrayWhite[i].x < 0 ){
-            shurikenArrayWhite.splice(i, 1);
+    for (let i = 0; i < WhiteEnergyArray.length; i++){
+        if (WhiteEnergyArray[i].x < 0 ){
+            WhiteEnergyArray.splice(i, 1);
         }
-        if (shurikenArrayWhite[i].distance < shurikenArrayWhite[i].radius + player1.radius){
+        if (WhiteEnergyArray[i].distance < WhiteEnergyArray[i].radius + player1.radius){
             scoreP1++;
-            if (!shurikenArrayWhite[i].counted){
-                shurikenArrayWhite[i].counted = true;
-                shurikenArrayWhite.splice(i, 1);
+            if (!WhiteEnergyArray[i].counted){
+                WhiteEnergyArray[i].counted = true;
+                WhiteEnergyArray.splice(i, 1);
             }
         }
     }
 }
 
-// Black shurikens
-const shurikenArrayBlack: any = [];
-class shurikenBlack {
+// Black energy
+const blackEnergyArray: any = [];
+class blackEnergy {
     x = canvas.width + Math.random() * canvas.width + 1000; 
     y = Math.random() * canvas.height;
     radius = 10;
@@ -100,28 +104,29 @@ class shurikenBlack {
         ctx?.stroke();
     }
 }
-function shurikenHandlerBlack(){
+function blackEnergyHandler(){
     if (gameFrame % 5 == 0){
-        shurikenArrayBlack.push(new shurikenBlack());
+        blackEnergyArray.push(new blackEnergy());
     } 
-    for (let i = 0; i < shurikenArrayBlack.length; i++){
-        shurikenArrayBlack[i].update();
-        shurikenArrayBlack[i].draw();
+    for (let i = 0; i < blackEnergyArray.length; i++){
+        blackEnergyArray[i].update();
+        blackEnergyArray[i].draw();
 
     }
-    for (let i = 0; i < shurikenArrayBlack.length; i++){
-        if (shurikenArrayBlack[i].x < 0 ){
-            shurikenArrayBlack.splice(i, 1);
+    for (let i = 0; i < blackEnergyArray.length; i++){
+        if (blackEnergyArray[i].x < 0 ){
+            blackEnergyArray.splice(i, 1);
         }
-        if (shurikenArrayBlack[i].distance < shurikenArrayBlack[i].radius + player2.radius){
+        if (blackEnergyArray[i].distance < blackEnergyArray[i].radius + player2.radius){
             scoreP2++;
-            if (!shurikenArrayBlack[i].counted){
-                shurikenArrayBlack[i].counted = true;
-                shurikenArrayBlack.splice(i, 1);
+            if (!blackEnergyArray[i].counted){
+                blackEnergyArray[i].counted = true;
+                blackEnergyArray.splice(i, 1);
             }
         }
     }
 }
+// Adding players
 let player1 = new playersClass; 
 let player2 = new playersClass; 
 
@@ -130,8 +135,6 @@ let player1Sprite = new Image();
 player1Sprite.src = "docs/images/ninja_black.png";
 let player2Sprite = new Image();
 player2Sprite.src = "docs/images/ninja_white.png";
-// let shuriken1Sprite = new Image;
-// shuriken1Sprite.src = "docs/images/shuriken1.png";
 
 // Adding background
 const background = new Image();
@@ -145,6 +148,7 @@ function drawSprite2(img: CanvasImageSource, sX: number, sY: number, sW: number,
     ctx?.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH);
 }
 
+// Function that animates. Animation stops when time is over.
 function animate(){
     if (!win){
         ctx?.clearRect(0, 0, canvas.width, canvas.height);
@@ -157,17 +161,21 @@ function animate(){
         moveplayer1();
         moveplayer2();
         requestAnimationFrame(animate);
-        shurikenHandlerWhite();
-        shurikenHandlerBlack();
+        whiteEnergyHandler();
+        blackEnergyHandler();
         gameFrame++;
     }
 }
 animate(); 
-function setPlayerPositions(){
+function setPlayers(){
     player1.x = 10;
     player2.x = 100;
+    player1.playerColor = "Black";
+    console.log(player1.playerColor + ` ninja created!`);
+    player2.playerColor = "White";
+    console.log(player2.playerColor + ` ninja created!`);
 }
-setPlayerPositions();
+setPlayers();
 
 // Adding keys
 window.addEventListener("keydown", function(e){
@@ -184,7 +192,6 @@ function jump1(){
 function jump2(){
     player2.y -= 20;
 }
-
 
 // Adding player controls
 function moveplayer1(){
@@ -230,18 +237,15 @@ function moveplayer2(){
         player2.frameX = 1
     }
 }
-
-var delayInMilliseconds = 1000; // Adds a 0.1 second delay untill game stops after a player wins
-
+// Checks which player has won
 function checkWin(){
     if (scoreP1 > scoreP2){
-        ctx?.fillText(`Black ninja wins!`,10, 50);
+        ctx?.fillText(player1.playerColor + ` ninja wins!`,10, 50);
         win = true;
     }
     else if (scoreP2 > scoreP1){
-        ctx?.fillText(`White ninja wins!`,650, 50);
+        ctx?.fillText(player2.playerColor + ` ninja wins!`,650, 50);
         win = true;
     }
 }
 setInterval(checkWin, 60000);
-
