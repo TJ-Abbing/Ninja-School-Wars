@@ -2,6 +2,8 @@
 
 This is a 2D game where two players, represented by ninjas, compete to collect energy orbs. The game is built using JavaScript and the HTML5 Canvas for rendering.
 
+![Screenshot](images/screenshot.png)
+
 ## Game Mechanics
 
 - The game features two types of energy orbs: white and black. These orbs appear randomly on the screen and move towards the left.
